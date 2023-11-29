@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 inertia_motor = 0.10         #kg*m*m
 resistance_motor = 1.1      #N*m*s
 stiffness_motor_shaft = 100000.0       #N*m/rad
-gear_ratio = 1.0            # - 
+gear_ratio = 0.8           # - 
 inertia_gears = 1.15         #N*m*s
 resistance_gears = 1.15         #kg*m*m
 stiffness_gear_shaft = 100000.0       #N*m/rad
@@ -67,10 +67,10 @@ t, yout = control.step_response(veh_dyn_sys,input=0)
 # plt.plot(t,yout[0,0])
 # plt.plot(t,yout[2,0])
 # plt.plot(t,yout[4,0])
-# plt.plot(t,yout[1,0])
-# plt.plot(t,yout[3,0])
-# plt.plot(t,yout[5,0])
-plt.plot(t,yout[0,0])
+# plt.legend(["motor", "gear", "hub"])
+plt.plot(t,yout[1,0])
+plt.plot(t,yout[3,0])
+
 
 plt.show()
 
