@@ -16,6 +16,9 @@ stiffness_wheel = 1000.0       #N*m/rad
 radius_wheel = 0.2          #meters
 mass_vehicle = 2444            #kg (Tesla Model)
 
+n = int(5)   #number of states
+m = int(1)   #number of inputs
+
 A11 = -resistance_motor / inertia_motor
 A12 = -1 / inertia_motor
 A21 = stiffness_motor_shaft
@@ -27,13 +30,8 @@ A43 = stiffness_gear_shaft / gear_ratio
 A45 = -stiffness_gear_shaft
 A54 = 1 / inertia_wheel
 A55 = -resistance_wheel / inertia_wheel
-A56 = -1 / inertia_wheel
-A65 = stiffness_wheel
-A67 = -stiffness_wheel / radius_wheel
-A76 = -1 / (mass_vehicle * radius_wheel)
-A77 = resistance_wheel / (mass_vehicle * radius_wheel * radius_wheel)
 
-A = np.zeros((7,7))
+A = np.zeros((n,n))
 A[0,0] = A11
 A[0,1] = A12
 A[1,0] = A21
@@ -44,26 +42,17 @@ A[3,2] = A43
 A[3,4] = A45
 A[4,3] = A54
 A[4,4] = A55
-A[4,5] = A56
-A[5,4] = A65
-A[5,6] = A67
-A[6,5] = A76
-A[6,6] = A77
 
 B11 = 1 / inertia_motor
-B12 = 1 / inertia_motor
-B73 = -1 / mass_vehicle
 
-B = np.zeros((7,3))
+B = np.zeros((n,m))
 B[0,0] = B11
-B[0,1] = B12
-B[6,2] = B73
 
-C = np.zeros((1,7))
+C = np.zeros((1,n))
 C[0,0] = 1
-C = np.identity(7)
+C = np.identity(n)
 
-D = np.zeros((7,3))
+D = np.zeros((n,m))
 # print(A)
 # print(B)
 print(C)
@@ -81,7 +70,7 @@ t, yout = control.step_response(veh_dyn_sys,input=0)
 # plt.plot(t,yout[1,0])
 # plt.plot(t,yout[3,0])
 # plt.plot(t,yout[5,0])
-plt.plot(t,yout[6,0])
+plt.plot(t,yout[0,0])
 
 plt.show()
 
